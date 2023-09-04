@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0'">
+    <VisualStudioVersion>15.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|ARM64">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM64">
+      <Configuration>Release</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|AnyCPU">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|AnyCPU">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup>
+    <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
+  </PropertyGroup>
+  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
+  <PropertyGroup>
+    <ProjectGuid>5e1e55f8-17e1-453d-a39f-d0bf23f4ff58</ProjectGuid>
+    <TargetPlatformVersion>10.0.22000.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <NoWarn>$(NoWarn);NU1702</NoWarn>
+    <EntryPointProjectUniqueName>..\ChildWindowForTaskbar\ChildWindowForTaskbar.csproj</EntryPointProjectUniqueName>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\SplashScreen.scale-200.png" />
+    <Content Include="Images\LockScreenLogo.scale-200.png" />
+    <Content Include="Images\Square150x150Logo.scale-200.png" />
+    <Content Include="Images\Square44x44Logo.scale-200.png" />
+    <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Images\StoreLogo.png" />
+    <Content Include="Images\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ChildWindowForTaskbar\ChildWindowForTaskbar.csproj" />
+    <ProjectReference Include="..\UwpIsland\UwpIsland.csproj" />
+  </ItemGroup>
+  <Target Name="_RemoveWinMDFromAppxManifest" BeforeTargets="_GenerateCurrentProjectAppxManifest">
+    <ItemGroup>
+      <_AppxWinmdFilesToHarvest Remove="@(_AppxWinmdFilesToHarvest)" />
+    </ItemGroup>
+  </Target>
+  <Target Name="_StompSourceProjectForWapProject" BeforeTargets="_ConvertItems">
+    <ItemGroup>
+      <_TemporaryFilteredWapProjOutput Include="@(_FilteredNonWapProjProjectOutput)" />
+      <_FilteredNonWapProjProjectOutput Remove="@(_TemporaryFilteredWapProjOutput)" />
+      <_FilteredNonWapProjProjectOutput Include="@(_TemporaryFilteredWapProjOutput)">
+        <SourceProject>
+        </SourceProject>
+      </_FilteredNonWapProjProjectOutput>
+      <_DetailedPriXml Remove="@(_DetailedPriXml)" />
+    </ItemGroup>
+  </Target>
+</Project>
